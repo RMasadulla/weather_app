@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="Asadulla Ahmed">
+    <meta name="description" content="weather App">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style type="text/css">
+        body {
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-div {
+            width: 270px;
+            height: 330px;
+            background-color: rgb(148, 165, 197);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #temp {
+            width: 95%;
+            margin: auto;
+            z-index: 9999;
+
+        }
+
+        .one,
+        .two,
+        .three {
+            animation: rotetes 4s linear infinite reverse;
+            border-radius: 47%;
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .one {
+            width: 400px;
+            height: 400px;
+            z-index: 1;
+            top: 40%;
+            left: -10%;
+            background: rgb(188, 246, 255);
+        }
+
+        .two {
+            width: 400px;
+            height: 400px;
+            z-index: 2 !important;
+            top: 45%;
+            left: -30%;
+            background: rgb(141, 143, 143);
+        }
+
+        .three {
+            width: 400px;
+            height: 400px;
+            z-index: 3 !important;
+            top: 42%;
+            left: -20%;
+            background: rgb(226, 234, 238);
+        }
+
+        @keyframes rotetes {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .img-icon {
+            margin-left: 40%;
+            padding-top: 20%;
+        }
+
+        .Sun {
+            font-size: 3rem;
+            color: rgb(238, 241, 30);
+        }
+
+        .location {
+            margin-left: 7%;
+            padding-top: 20%;
+            font-size: 1.5rem;
+        }
+
+        .date-time {
+            margin-left: 25%;
+            font-size: .8rem;
+        }
+
+        .current-tem {
+            margin-left: 30%;
+        }
+
+        .up-down {
+            margin-left: 20%;
+            font-size: .9rem;
+        }
+
+        .str {
+            display: inline-block;
+            margin-right: 10px;
+            animation: walk 3s linear infinite alternate;
+        }
+
+        @keyframes walk {
+            from {
+                transform: translateX(-0.3rem)
+            }
+
+            to {
+                transform: translateX(0.3rem)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-div">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+        <div id="temp">
+            <div class="img-icon"><span class='Sun fas fa-sun'></span></span></div>
+            <h1 class="location"><span class="str fas fa-street-view"></span>{%location%}, {%country%}</h1>
+            <p class="date-time">Web|sep-20| 20:10 PM</p>
+            <h2 class="current-tem">{%currentTemp%}&deg;C</h2>
+            <p class="up-down">Min {%minTemp%}&deg;C | Max {%maxTemp%}&deg;C</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const CurDate = document.querySelector(".date-time");
+        let WeatherCondition = document.querySelector(".img-icon");
+        var tempStatus = "{%tempStatus%}";
+         switch(tempStatus){
+            case "Rain":
+            WeatherCondition.innerHTML = "<span class='fas fa-cloud-rain' style='color:#ffffff; font-size: 3rem'></span>";
+                break;
+            case "Sun":
+            WeatherCondition.innerHTML = "<span class='Sun fas fa-sun''></span>";
+                break;
+            case "Clouds":
+            WeatherCondition.innerHTML = "<span class='fas fa-cloud' style='color:#ffffff; font-size: 3rem'></span>";
+                break;
+            default:
+            WeatherCondition.innerHTML = "<span class='Sun fas fa-sun' style='font-size: 3rem'></span>";
+         }
+        const getCurrentDay = () => {
+            let currentTime = new Date();
+            var weekday = new Array(7);
+            weekday[0] = "Sun";
+            weekday[1] = "Mon";
+            weekday[2] = "Tue";
+            weekday[3] = "Wed";
+            weekday[4] = "Thu";
+            weekday[5] = "Fri";
+            weekday[6] = "Sat";
+            const SDay = (weekday[currentTime.getDay()]);
+            return SDay;
+        };
+        const getCurrentTime = () => {
+            var cDate = new Date();
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var month = months[cDate.getMonth()];
+            var date = cDate.getDate();
+
+
+            let hours = cDate.getHours();
+            let mins = cDate.getMinutes();
+            let period = "AM";
+            if (hours > 11) {
+                period = "PM";
+                if (hours > 12) {
+                    hours = hours - 12;
+                }
+            }
+            if (mins < 10) {
+                mins = "0" + mins;
+            }
+            return (`${month}-${date} | ${hours}:${mins} ${period}`);
+        };
+
+        CurDate.innerHTML = `${getCurrentDay()} | ${getCurrentTime()}`;
+    </script>
+</body>
+
+</html>
